@@ -1,0 +1,45 @@
+Write a servlet to accept user credentials through an HTML form and display a personalized welcome message if the login is successful.
+code:-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+</head>
+<body>
+    <h2>Login Form</h2>
+    <form action="LoginServlet" method="post">
+        Username: <input type="text" name="username" required><br>
+        Password: <input type="password" name="password" required><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.PrintWriter;
+
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Simple validation (in a real application, validate against a database)
+        if ("user".equals(username) && "pass".equals(password)) {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<h1>Welcome, " + username + "!</h1>");
+        } else {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<h1>Invalid credentials. Please try again.</h1>");
+        }
+    }
+}
